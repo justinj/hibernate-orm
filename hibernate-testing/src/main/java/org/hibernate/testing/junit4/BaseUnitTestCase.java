@@ -6,6 +6,8 @@
  */
 package org.hibernate.testing.junit4;
 
+import java.sql.DriverManager;
+import java.sql.Connection;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,7 +21,9 @@ import org.hibernate.testing.AfterClassOnce;
 import org.hibernate.testing.jdbc.leak.ConnectionLeakUtil;
 import org.hibernate.testing.jta.TestingJtaPlatformImpl;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
@@ -44,6 +48,20 @@ public abstract class BaseUnitTestCase {
 
 	@Rule
 	public TestRule globalTimeout = Timeout.millis( TimeUnit.MINUTES.toMillis( 30 ) ); // no test should run longer than 30 minutes
+
+	@Rule
+	public TestName name = new TestName();
+
+	@Before
+	public void sendOutNameOfTest() {
+		Connection db;
+		try {
+			db = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:26257/?sslmode=disable", "root", "");
+			db.createStatement().execute("SELECT 'Running test: " + name.getMethodName() + "'");
+		} catch(Exception e) {
+			// rip
+		}
+	}
 
 	public BaseUnitTestCase() {
 		if ( enableConnectionLeakDetection ) {
