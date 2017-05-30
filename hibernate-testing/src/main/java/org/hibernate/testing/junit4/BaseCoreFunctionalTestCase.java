@@ -43,8 +43,6 @@ import org.hibernate.testing.SkipLog;
 import org.hibernate.testing.cache.CachingRegionFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TestName;
 
 import static org.hibernate.testing.transaction.TransactionUtil.doInHibernate;
 import static org.junit.Assert.fail;
@@ -100,7 +98,6 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 	protected void buildSessionFactory() {
 		buildSessionFactory( null );
 	}
-
 
 	protected void buildSessionFactory(Consumer<Configuration> configurationAdapter) {
 		// for now, build the configuration to get all the property settings

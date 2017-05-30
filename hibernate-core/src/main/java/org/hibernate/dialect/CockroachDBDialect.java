@@ -13,8 +13,8 @@ import org.hibernate.type.StandardBasicTypes;
 
 /**
  * An SQL dialect for CockroachDB.
- * Makes no changes at the moment, since CockroachDB now has the type aliases
- * used. Keeping this file around for the future, though.
+ * Disables support for sequences and hackily works around the lack of support
+ * for SELECT FOR UPDATE.
  */
 public class CockroachDBDialect extends PostgreSQL94Dialect {
 
@@ -25,10 +25,18 @@ public class CockroachDBDialect extends PostgreSQL94Dialect {
     super();
   }
 
-  // This does not solve the problem, since the fallback mechanism relies on
-  // SELECT FOR UPDATE.
-  // @Override
-  // public boolean supportsSequences() {
-  //   return false;
-  // }
+  @Override
+  public boolean supportsSequences() {
+    return false;
+  }
+
+  @Override
+  public String getForUpdateString() {
+    return "";
+  }
+
+  @Override
+  public String getWriteLockString(int timeout) {
+    return "";
+  }
 }

@@ -52,16 +52,18 @@ public abstract class BaseUnitTestCase {
 	@Rule
 	public TestName name = new TestName();
 
-	@Before
-	public void sendOutNameOfTest() {
-		Connection db;
-		try {
-			db = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:26257/?sslmode=disable", "root", "");
-			db.createStatement().execute("SELECT 'Running test: " + name.getMethodName() + "'");
-		} catch(Exception e) {
-			// rip
-		}
-	}
+  // This was included so that the name of the test running would be included
+  // in the Cockroach logs, will need to figure out a way to get it to work
+  // with the dynamically allocated port for the test server.
+
+	// @Before
+	// public void sendOutNameOfTest() {
+	// 	Connection db;
+	// 	try {
+	// 		db = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:26257/?sslmode=disable", "root", "");
+	// 		db.createStatement().execute("SELECT 'Running test: " + name.getMethodName() + "'");
+	// 	} catch(Exception e) {}
+	// }
 
 	public BaseUnitTestCase() {
 		if ( enableConnectionLeakDetection ) {
