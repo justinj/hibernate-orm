@@ -1,0 +1,12 @@
+{
+  "name": "script",
+  "version": "1.0.0",
+  "description": "crdb helpers for hibernate testing",
+  "main": "index.js",
+  "author": "Justin Jaffray",
+  "license": "MIT",
+  "dependencies": {
+    "rimraf-promise": "^2.0.0",
+    "walk": "^2.3.9"
+  }
+}
